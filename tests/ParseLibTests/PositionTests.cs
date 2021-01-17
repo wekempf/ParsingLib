@@ -29,16 +29,16 @@ namespace ParseLib.Tests
                 () => Assert(result.Column).IsEqualTo(expectedColumn, "Column isn't correct"));
         }
 
-        [Fact(DisplayName = "Position should be equatable")]
-        public void Equatable()
+        [Fact(DisplayName = "Position should be comparable")]
+        public void Comparable()
         {
-            var verifier = new EquatableVerifier<Position>
+            var verifier = new ComparableVerifier<Position>
             {
-                UniqueItemsFactory = () => new[]
+                OrderedItemsFactory = () => new[]
                 {
                     new Position(new Line(1), new Column(1)),
                     new Position(new Line(2), new Column(1)),
-                    new Position(new Line(1), new Column(2))
+                    new Position(new Line(2), new Column(2))
                 },
                 SkipImmutabilityTests = true
             };

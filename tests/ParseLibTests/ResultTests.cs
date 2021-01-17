@@ -20,11 +20,12 @@ namespace ParseLib.Tests
         [Fact(DisplayName = "Constructing a Success gives expected value")]
         public void SuccessTest()
         {
-            var result = Success(10);
+            var input = Input.From("");
+            var result = Success(10, input);
 
             int? value = result switch
             {
-                Result<int>.Success(var v) => v,
+                Result<int>.Success s => s.Value,
                 Result<int>.Error e => null
             };
 
@@ -37,7 +38,7 @@ namespace ParseLib.Tests
             var expectedPosition = anon.AnyPosition();
             var expectedMessage = anon.Any<string>();
 
-            Result<int> result = Error(expectedPosition, expectedMessage);
+            Result<int> result = new Result<int>.Error(expectedPosition, expectedMessage);
 
             var error = (Result<int>.Error)result;
 
