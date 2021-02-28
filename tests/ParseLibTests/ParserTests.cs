@@ -15,7 +15,7 @@ namespace ParseLib.Tests
         [Fact]
         public void TestCtor()
         {
-            var parser = new Parser<int>(input => Result.Success(1, input));
+            var parser = new Parser<int>(input => Result.Success(1, input, false));
 
             Assert(parser).IsNotNull();
         }
@@ -23,7 +23,7 @@ namespace ParseLib.Tests
         [Fact]
         public void ParseShouldReturnResult()
         {
-            var parser = new Parser<int>(input => Result.Success(1, input));
+            var parser = new Parser<int>(input => Result.Success(1, input, false));
             var input = Input.From("");
 
             var result = parser.Parse(input);

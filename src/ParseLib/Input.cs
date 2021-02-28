@@ -23,7 +23,19 @@ namespace ParseLib
                 Current = (char)inp;
             }
 
-            remaining = new Lazy<Input>(() => new Input(reader, Position.Next()));
+            remaining = new Lazy<Input>(() => GetRemainingInput(reader));
+            if (Current == '\r' && !IsAtEnd && remaining.Value.Current == '\n')
+            {
+                Current = remaining.Value.Current;
+                IsAtEnd = remaining.Value.IsAtEnd;
+                remaining = remaining.Value.remaining;
+            }
+
+            Input GetRemainingInput(TextReader reader)
+            {
+                var pos = Current == '\n' ? Position.NextLine() : Position.Next();
+                return new Input(reader, pos);
+            }
         }
 
         public static Input From(string text) => From(new StringReader(text));
@@ -37,5 +49,11 @@ namespace ParseLib
         public Input RemainingInput => remaining.Value;
 
         public bool IsAtEnd { get; init; }
+
+        public void Deconstruct(out char current, out Position position, out bool isAtEnd)
+            => (current, position, isAtEnd) = (Current, Position, IsAtEnd);
+
+        public void Deconstruct(out char current, out Position position, out bool isAtEnd, out Input remaining)
+            => (current, position, isAtEnd, remaining) = (Current, Position, IsAtEnd, RemainingInput);
     }
 }

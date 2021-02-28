@@ -19,6 +19,8 @@ namespace ParseLib
 
         public Position Next() => new Position(Line, new Column(Column.Value + 1));
 
+        internal Position NextLine() => new Position(new Line(Line.Value + 1), new Column(1));
+
         public static bool operator <(Position? left, Position? right)
             => Comparer.Default.Compare(left, right) < 0;
 

@@ -37,6 +37,23 @@ namespace ParseLib.Tests
             }
         }
 
+        public static void IsSuccess<T>(
+            this ActualValue<Result<T>> actual, T value, IEqualityComparer<T> comparer, int line, int column)
+        {
+            if (actual.Value is Result<T>.Success s)
+            {
+                AssertAll("Success Result does not have expected properties.",
+                    () => Assert(comparer.Equals(value, s.Value)).IsTrue("Value is not correct."),
+                    () => Assert(s.RemainingInput.Position)
+                        .IsEqualTo(new Position(new Line(line), new Column(column)), "Position is not correct.")
+                );
+            }
+            else
+            {
+                Fail("Result is not a Success.");
+            }
+        }
+
         public static void IsError<T>(
             this ActualValue<Result<T>> actual, int line, int column, string message)
         {

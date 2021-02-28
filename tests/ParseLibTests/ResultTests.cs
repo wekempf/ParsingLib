@@ -21,7 +21,7 @@ namespace ParseLib.Tests
         public void SuccessTest()
         {
             var input = Input.From("");
-            var result = Success(10, input);
+            var result = Success(10, input, false);
 
             int? value = result switch
             {
@@ -38,7 +38,7 @@ namespace ParseLib.Tests
             var expectedPosition = anon.AnyPosition();
             var expectedMessage = anon.Any<string>();
 
-            Result<int> result = new Result<int>.Error(expectedPosition, expectedMessage);
+            Result<int> result = new Result<int>.Error(expectedPosition, expectedMessage, false);
 
             var error = (Result<int>.Error)result;
 

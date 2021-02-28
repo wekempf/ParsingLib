@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ParseLib
 {
@@ -13,6 +15,11 @@ namespace ParseLib
         public T Null<T>(T? value, string paramName)
             where T : class
             => value ?? throw new ArgumentNullException(paramName);
+
+        public IEnumerable<T> NullOrEmpty<T>(IEnumerable<T> value, string paramName)
+            => Null(value, paramName).Any()
+                ? value
+                : throw new ArgumentException("Value cannot be empty.", paramName);
 
         public T Range<T>(T value, T min, T max, string paramName)
             where T : IComparable<T>
